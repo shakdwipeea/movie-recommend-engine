@@ -15,6 +15,7 @@ from sklearn.cluster import KMeans
 from sklearn.externals import joblib
 from sklearn.externals import joblib
 import pandas as pd
+import modules.moviIdtoName as mov
 
 stopwords = nltk.corpus.stopwords.words('english')
 stemmer = SnowballStemmer("english")
@@ -39,8 +40,9 @@ def tokenize_only(text):
 
 def getClusterTags():
 
-    titles = open('/Users/raghav/Documents/minor_pro/modules/title_list_mod.txt').read().split('\n')
-    titles = titles[:185]
+    #titles = open('/Users/raghav/Documents/minor_pro/modules/title_list_mod.txt').read().split('\n')
+    titles = list(range(1,186))
+
 
     synopses_imdb = open('/Users/raghav/Documents/minor_pro/modules/synopses_list_imdb_mod.txt').read().split('\n BREAKS HERE')
     synopses_imdb = synopses_imdb[:185]
@@ -102,12 +104,10 @@ def getClusterTags():
 
     print("Top terms per cluster:")
     print()
-    cluster_tags = []
-    cluster_titles = []
     cluster_info = {}
-    cluster_to = []
     order_centroids = km.cluster_centers_.argsort()[:, ::-1]
     for i in range(num_clusters):
+        cluster_tags = []
         print("Cluster %d words:" % i, end='')
         for ind in order_centroids[i, :6]:
             cluster_tags.append(str(vocab_frame.ix[terms[ind].split(' ')].values.tolist()[0][0].encode('utf-8', 'ignore')))
@@ -117,11 +117,10 @@ def getClusterTags():
         print("Cluster %d titles:" % i, end='')
         for title in frame.ix[i]['title'].values.tolist():
             print(title)
-            cluster_titles.append(str(title))
-            print(' %s,' % title, end='')
+            #mId = mov.getMovieId(str(ti))
+            cluster_info[title] = cluster_tags
+            #cluster_titles.append(str(title))
+            #print(' %s,' % title, end='')
         print()
         print()
-        cluster_to.append(cluster_tags)
-        cluster_to.append(cluster_titles)
-        cluster_info[i] = cluster_to
     return cluster_info
