@@ -4,6 +4,7 @@ import json
 import urllib
 from bs4 import BeautifulSoup
 import modules.clutering as clust
+import modules.moviIdtoName as movToName
 import pyCollaborativeFiltering.src.tes as recommend
 
 app = Flask(__name__)
@@ -25,6 +26,13 @@ def getRecommendation():
     param = json.loads(request.data)
     res = recommend.getRecommend(param['userId'])
     return json.dumps()
+
+@app.route('getName', methods = ['GET'])
+def getMovieName():
+    param = json.loads(request.data)
+    movName = movToName.getMovieName(str(param['movieId']))
+    return json.dumps({'name' : movName})
+
 
 if __name__ == "__main__":
 	app.run(debug = False)

@@ -20,10 +20,8 @@ stopwords = nltk.corpus.stopwords.words('english')
 stemmer = SnowballStemmer("english")
 
 def tokenize_and_stem(text):
-    # first tokenize by sentence, then by word to ensure that punctuation is caught as it's own token
     tokens = [word for sent in nltk.sent_tokenize(text) for word in nltk.word_tokenize(sent)]
     filtered_tokens = []
-    # filter out any tokens not containing letters (e.g., numeric tokens, raw punctuation)
     for token in tokens:
         if re.search('[a-zA-Z]', token):
             filtered_tokens.append(token)
@@ -32,10 +30,8 @@ def tokenize_and_stem(text):
 
 
 def tokenize_only(text):
-    # first tokenize by sentence, then by word to ensure that punctuation is caught as it's own token
     tokens = [word.lower() for sent in nltk.sent_tokenize(text) for word in nltk.word_tokenize(sent)]
     filtered_tokens = []
-    # filter out any tokens not containing letters (e.g., numeric tokens, raw punctuation)
     for token in tokens:
         if re.search('[a-zA-Z]', token):
             filtered_tokens.append(token)
@@ -45,27 +41,6 @@ def getClusterTags():
 
     titles = open('/Users/raghav/Documents/minor_pro/modules/title_list_mod.txt').read().split('\n')
     titles = titles[:185]
-
-    #links = open('link_list_imdb.txt').read().split('\n')
-    #links = links[:100]
-
-    #synopses_wiki = open('synopses_list_wiki.txt').read().split('\n BREAKS HERE')
-    #synopses_wiki = synopses_wiki[:100]
-
-    #synopses_clean_wiki = []
-    #for text in synopses_wiki:
-    #    text = BeautifulSoup(text, 'html.parser').getText()
-    #    synopses_clean_wiki.append(text)
-
-    #synopses_wiki = synopses_clean_wiki
-    #genres = open('genres_list.txt').read().split('\n')
-    #genres = genres[:100]
-
-    #print(str(len(titles)) + ' titles')
-    #print(str(len(links)) + ' links')
-    #print(str(len(synopses_wiki)) + ' synopses')
-    #print(str(len(genres)) + ' genres')
-
 
     synopses_imdb = open('/Users/raghav/Documents/minor_pro/modules/synopses_list_imdb_mod.txt').read().split('\n BREAKS HERE')
     synopses_imdb = synopses_imdb[:185]
